@@ -47,13 +47,13 @@
 
 	This will start the script. Other common commands you'll want to know: 
 
-	`Ctrl + c` or `Cmd + c`: Terminate application
-	`Ctrl + d` or `Cmd + d`: Exit application
-	`Ctrl + l` or `Cmd + l`: Clear the screen
-	`Ctrl + t` or `Cmd + t`: Open new tab
-	`cd sale + Tab`: `cd` is change directory (folder), you don't need to type out the folder name each time. You can click Tab after a few letters and terminal will auto complete.
-	`cd ..`: Going back one folder
-	`cd`: With nothing after, will return you to the main Users folder (where we placed the application folder and ChromeDriver to)
+	- `Ctrl + c` or `Cmd + c`: Terminate application
+	- `Ctrl + d` or `Cmd + d`: Exit application
+	- `Ctrl + l` or `Cmd + l`: Clear the screen
+	- `Ctrl + t` or `Cmd + t`: Open new tab
+	- `cd sale + Tab`: `cd` is change directory (folder), you don't need to type out the folder name each time. You can click Tab after a few letters and terminal will auto complete.
+	- `cd ..`: Going back one folder
+	- `cd`: With nothing after, will return you to the main Users folder (where we placed the application folder and ChromeDriver to)
 
 ## Category Assigments and CSV 'Uploads'
 
