@@ -16,7 +16,7 @@
 
 	You'll only need to do this the first time.
 
-	```shell
+	```
 	pip install -r requirements.txt
 	```
 
@@ -41,7 +41,7 @@
 	`cd salesforce-script` to enter the application folder. 
 
 	Run following command:
-	```shell
+	```
 	python main.py
 	```
 
