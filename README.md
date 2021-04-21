@@ -20,6 +20,12 @@
 	pip install -r requirements.txt
 	```
 
+	or if that didn't work, try this:
+
+	```
+	python -m pip install -r requirements.txt
+	```
+
 3. **Download ChromeDriver**
 
 	Check your Chrome version in Chrome Settings. 
@@ -34,7 +40,7 @@
 
 4. **Update secrets.txt**
 
-	In main folder, open `secrets.txt` in the application folder and change the placeholder email and password. 
+	In main folder, open `secrets.txt` in the application folder and change the placeholder email and password. On the first line, input `True` if you need two-factor authentication, `False` if you don't.
 
 5. **Run script**
 
@@ -54,6 +60,39 @@
 	- `cd sale + Tab`: `cd` is change directory (folder), you don't need to type out the folder name each time. You can click Tab after a few letters and terminal will auto complete.
 	- `cd ..`: Going back one folder
 	- `cd`: With nothing after, will return you to the main Users folder (where we placed the application folder and ChromeDriver to)
+
+## Installing Python 
+
+1. **Mac**
+
+	Mac already has Python installed, try steps in **Usage** first. If it doesn't work try doing these steps in the terminal. 
+
+	- Install xcode
+	```
+	xcode-select --install
+	```
+
+	- Install Homebrew
+	```
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	```
+
+	- Check you installed Homebrew successfully (you should see Homebrew X.X.XX - some version number)
+	```
+	brew --version
+	```
+
+	- Install python3
+	```
+	brew install python3
+	```
+
+	- Run the script following the steps in **Usage**. Replace `python` with `python3` in Step 2 and 5.
+
+2. **Windows**
+	
+	To-do
+
 
 ## Category Assigments and CSV 'Uploads'
 

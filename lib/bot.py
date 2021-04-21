@@ -12,7 +12,7 @@ import pdb
 
 
 class SFBot:
-    def __init__(self, username, password, site):
+    def __init__(self, username, password, twoAuth, site):
         # Locate Chrome Driver
         home = str(Path.home())
         try:
@@ -30,6 +30,7 @@ class SFBot:
         # Secrets
         self.username = username
         self.password = password
+        self.twoAuth = twoAuth
         self.site = site
         
         # CSV File for Category Mapping
@@ -47,16 +48,32 @@ class SFBot:
     def login(self):
 
         try:
-            # Enter username
-            self.driver.find_element_by_xpath("//input[@name=\"callback_0\"]")\
-                .send_keys(self.username)
-            self.driver.find_element_by_xpath('//input[@type="submit"]')\
-                .click()
-            # Enter password
-            self.driver.find_element_by_xpath("//input[@name=\"callback_1\"]")\
-                .send_keys(self.password)
-            self.driver.find_element_by_xpath('//input[@type="submit"]')\
-                .click()
+            if self.twoAuth:
+                """ User needs two factor auth """
+                # Enter username
+                self.driver.find_element_by_xpath("//input[@name=\"callback_0\"]")\
+                    .send_keys(self.username)
+                self.driver.find_element_by_xpath('//input[@type="submit"]')\
+                    .click()
+                # Enter password
+                self.driver.find_element_by_xpath("//input[@name=\"callback_1\"]")\
+                    .send_keys(self.password)
+                self.driver.find_element_by_xpath('//input[@type="submit"]')\
+                    .click()
+                message = "You are using Two-Factor Authentication.\nI need some help, could you finish loggin us in?\nOnce logged in, enter 'y'."
+                self.helpMeHuman(message)
+                
+            else:
+                # Enter username
+                self.driver.find_element_by_xpath("//input[@name=\"callback_0\"]")\
+                    .send_keys(self.username)
+                self.driver.find_element_by_xpath('//input[@type="submit"]')\
+                    .click()
+                # Enter password
+                self.driver.find_element_by_xpath("//input[@name=\"callback_1\"]")\
+                    .send_keys(self.password)
+                self.driver.find_element_by_xpath('//input[@type="submit"]')\
+                    .click()
         
         except Exception as error:
             print("==========================")
@@ -64,10 +81,6 @@ class SFBot:
             print("Retry logging in...")
             print("==========================")
             self.login()
-        
-        """ Uncomment this and comment above if user needs 2 factor """
-        # message = "Are you using Two-Factor Authentication?\nI need some help, could you log us in?\nOnce logged in, enter 'y'."
-        # self.helpMeHuman(message)
         
         # Select Site preference
         select_map = {
@@ -196,15 +209,17 @@ class SFBot:
 
             self.searchProducts(products)
             
-            try:
-                self.driver.find_element_by_xpath('//button[@name=\"EditAll\"]')\
-                    .click()
-            except:
-                edit_all = """
-                    button = document._getElementsByXPath('//button[@name=\"EditAll\"]')
-                    button[0].click()
-                """
-                self.driver.execute_script(edit_all)
+            self.editAll_ProductTool()
+            
+            # try:
+            #     self.driver.find_element_by_xpath('//button[@name=\"EditAll\"]')\
+            #         .click()
+            # except:
+            #     edit_all = """
+            #         button = document._getElementsByXPath('//button[@name=\"EditAll\"]')
+            #         button[0].click()
+            #     """
+            #     self.driver.execute_script(edit_all)
             
             print("==========================")
             print("Found: ", products)
@@ -232,7 +247,7 @@ class SFBot:
             print("==========================")
             
             try:
-                self.driver.find_element_by_xpath("//input[@name=\"ext-comp-1009\"]").send_keys(Keys.Enter)
+                self.driver.find_element(By.ID, "ext-comp-1009").send_keys(Keys.ENTER)
             
                 self.driver.find_element(By.CSS_SELECTOR, ".x-grid3-row-checker").click()
             except:
@@ -242,10 +257,8 @@ class SFBot:
                 
                     self.driver.find_element(By.CSS_SELECTOR, ".x-grid3-row-checker").click()
                 except:
-                    message = "Category ID not found. Enter correct ID and select the checkbox then enter 'y'."
+                    message = "Category ID not found. Search ID and select the checkbox then enter 'y'."
                     self.helpMeHuman(message)
- 
-            
                         
             try:
                 self.driver.find_element(By.NAME, "selectAction").click()
@@ -290,4 +303,15 @@ class SFBot:
                 break            
         
         return
+    
+    def editAll_ProductTool(self):
+        try:
+            self.driver.find_element_by_xpath('//button[@name=\"EditAll\"]')\
+                .click()
+        except:
+            edit_all = """
+                button = document._getElementsByXPath('//button[@name=\"EditAll\"]')
+                button[0].click()
+            """
+            self.driver.execute_script(edit_all)
         

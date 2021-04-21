@@ -1,4 +1,5 @@
 from lib.bot import SFBot
+import distutils.core
 
 
 def openSecrets():
@@ -10,11 +11,12 @@ def openSecrets():
 
 def run():
     secret = openSecrets()
-    email, password = secret 
+    twoAuth, email, password = secret 
+    twoAuth = bool(distutils.util.strtobool(twoAuth))
     prompt = "Enter your site preference:\nHK: Hong Kong\nJP: Japan\nUK: EMEA\nAU: AU/NZ"
     print(prompt)
     site = input("Enter Site > ").strip()
-    my_bot = SFBot(email, password, site)
+    my_bot = SFBot(email, password, twoAuth, site)
     mapping = my_bot.getCategories()
     my_bot.navProducts()
     my_bot.setCategories(mapping[0], mapping[1])
@@ -22,6 +24,5 @@ def run():
     print(prompt)
     
     
-if __name__ == "__main__":    
+if __name__ == "__main__":
     run()
-
