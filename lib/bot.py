@@ -106,8 +106,7 @@ class SFBot:
         
         self.driver.get("https://staging-eu01-lululemon.demandware.net/on/demandware.store/Sites-Site/default/ViewProductList_52-List?SelectedMenuItem=prod-cat&CurrentMenuItemId=prod-cat&CatalogItemType=Product")
         
-        self.driver.find_element_by_link_text('By ID')\
-            .click()
+        self.driver.find_element_by_link_text('By ID').click()
         
         print("==========================")
         print("Product Page")
@@ -211,36 +210,29 @@ class SFBot:
             
             self.editAll_ProductTool()
             
-            # try:
-            #     self.driver.find_element_by_xpath('//button[@name=\"EditAll\"]')\
-            #         .click()
-            # except:
-            #     edit_all = """
-            #         button = document._getElementsByXPath('//button[@name=\"EditAll\"]')
-            #         button[0].click()
-            #     """
-            #     self.driver.execute_script(edit_all)
-            
             print("==========================")
             print("Found: ", products)
             print("==========================")
             
-            self.driver.find_element_by_xpath("//input[@value='AssignProductToCatalogCategory']")\
-                .click()
-            
-            self.driver.find_element_by_xpath('//button[@name=\"selectAction\"]')\
-                .click()
-            
-            self.driver.find_element_by_xpath('//*[@id="ext-gen77"]')\
-                .click()
+            self.driver.find_element_by_xpath("//input[@value='AssignProductToCatalogCategory']").click()
             
             try:
-                search = self.driver.find_element_by_xpath("//input[@name=\"ext-comp-1009\"]")\
-                    .send_keys(category)
+                self.driver.find_element_by_xpath('//button[@name=\"selectAction\"]').click()
+            except:
+                script = """document.querySelector("button[name='selectAction']").click()"""
+                self.driver.execute_script(script)
+            
+            try:
+                self.driver.find_element_by_xpath('//*[@id="ext-gen77"]').click()
+            except:
+                script = """"document.querySelector('.x-btn-text.listview_disabled').click()"""
+                self.driver.execute_script(script)                  
+                    
+            try:
+                search = self.driver.find_element_by_xpath("//input[@name=\"ext-comp-1009\"]").send_keys(category)
             except:
                 sleep(2)
-                search = self.driver.find_element_by_xpath("//input[@name=\"ext-comp-1009\"]")\
-                    .send_keys(category)
+                search = self.driver.find_element_by_xpath("//input[@name=\"ext-comp-1009\"]").send_keys(category)
             
             print("==========================")
             print("Categorizing: ", products)
@@ -248,13 +240,11 @@ class SFBot:
             
             try:
                 self.driver.find_element(By.ID, "ext-comp-1009").send_keys(Keys.ENTER)
-            
                 self.driver.find_element(By.CSS_SELECTOR, ".x-grid3-row-checker").click()
             except:
                 try:
                     search = self.driver.find_element_by_xpath('/html/body/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/form/table[1]/tbody/tr[2]/td[2]/div/div/div/div/div[2]/div/div[1]/div/table/tbody/tr/td[2]/div/span/img[1]')
                     search.click()
-                
                     self.driver.find_element(By.CSS_SELECTOR, ".x-grid3-row-checker").click()
                 except:
                     message = "Category ID not found. Search ID and select the checkbox then enter 'y'."
