@@ -267,8 +267,19 @@ class SFBot:
                 options = dropdown.find_element_by_xpath("//option[contains(text(), 'lululemon')]")\
                     .click()
             
-            self.driver.find_element_by_xpath('//button[@name="assignProductsAndReturn"]')\
+            try:
+                self.driver.find_element_by_xpath('//button[@name="assignProductsAndReturn"]')\
                 .click()
+            except:
+                try:
+                    sleep(2)
+                    self.driver.find_element_by_xpath('//button[@name="assignProductsAndReturn"]')\
+                    .click()
+                except:
+                    assignAction = """document._getElementsByXPath('//button[@name="assignProductsAndReturn"]')[0].click();"""
+                    self.driver.execute_script(assignAction)
+                
+                
             
             print("==========================")    
             print("%s: %s > %s" % (job, products, category))
