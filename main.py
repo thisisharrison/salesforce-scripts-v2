@@ -13,7 +13,7 @@ def run():
     secret = openSecrets()
     twoAuth, email, password = secret 
     twoAuth = bool(distutils.util.strtobool(twoAuth))
-    prompt = "Enter your site preference:\nHK: Hong Kong\nJP: Japan\nUK: EMEA\nAU: AU/NZ"
+    prompt = "Enter your site preference:\nHK: Hong Kong\nJP: Japan\nUK: EMEA\nAU: AU/NZ\nKR: Korea\n"
     print(prompt)
     site = input("Enter Site > ").strip()
     my_bot = SFBot(email, password, twoAuth, site)

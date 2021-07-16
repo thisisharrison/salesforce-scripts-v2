@@ -87,7 +87,8 @@ class SFBot:
             'JP': '1',
             'UK': '8',
             'HK': '5',
-            'AU': '7'
+            'AU': '7',
+            'KR': '10'
             }
         idx = select_map[self.site]
         script = 'arguments[0].selectedIndex = {}; arguments[0].onchange();'.format(idx)
