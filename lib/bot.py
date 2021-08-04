@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 from pathlib import Path
+from price_utils import getSkus, mergeSort, merge, wildCardDict
 import pdb
 
 
@@ -849,10 +850,8 @@ class SFBot:
         
     def categoryPositionUpdate(self, mapping):
         for k, v in mapping.items():
-            print("{} => {}".format(v, k))
-            
+            print("{} => {}".format(v, k))            
             script = """inputs = document._getElementsByXPath('//*[contains(text(),"{}")]')[0].parentNode.parentNode.getElementsByTagName('input');
-            
             if (inputs) {{
             for (let i = 0; i < inputs.length; i++) {{
                     if(!inputs[i].getAttribute('name')) continue
@@ -867,6 +866,91 @@ class SFBot:
             """.format(v,k)
             
             self.driver.execute_script(script)
-
         return
     
+    def copy_product_status(self, products):
+        filename = "./search/" + self.site + "_searchResult.txt"
+        with open(filename, "w", encoding='utf-8') as file:
+            file.write("style\tname\tstatus\n")
+            file.close()
+            
+        isFinished = True 
+        while isFinished:
+            if len(products) == 0:
+                isFinished = False
+                break
+            if len(products) > 1000:
+                print(len(products))
+                search = products[0:1000]
+                print(len(search))
+                del products[0:1000]
+                print("====")
+                print(len(products))
+                
+                self.searchProducts(search)
+            else: 
+                
+                self.searchProducts(products)
+                del products[0:len(products)]
+                                
+            all_button = """
+                    button = document._getElementsByXPath('//button[@name="PageSize"]');
+                    button[button.length -1].click()
+                """
+            try:
+                self.driver.execute_script(all_button)                
+            except: 
+                pass
+            
+            table = self.driver.find_element_by_xpath('//*[@id="bm_content_column"]/table/tbody/tr/td/table/tbody/tr/td[2]/form/table/tbody/tr/td/table[1]')
+            
+            content = table.get_attribute('outerHTML')
+
+            soup = BeautifulSoup(content, "lxml")
+            trs = soup.find_all('tr')
+            total = len(trs)
+            counter = 1
+            
+            filename = "./search/" + self.site + "_searchResult.txt"
+            with open(filename, "a", encoding='utf-8') as file:
+                for tr in trs:                 
+                    tds = tr.find_all('a',{'class':'table_detail_link'})
+                    if not tds:
+                        counter += 1
+                        continue                
+                    style = tds[0].text.strip()
+                    name = tds[1].text.strip()
+                    
+                    imgs = tr.find_all('img')
+                    stat = ''
+                    
+                    for img in imgs:    
+                        try:
+                            alt = img['alt']
+                            stat += alt
+                        except:
+                            continue
+                    file.write(f"{style}\t{name}\t{stat.strip()}\n")
+                    counter += 1
+                    print("{}/{}".format(counter, total))
+                file.close()
+                    
+            self.driver.find_element_by_xpath("//textarea[@name=\"WFSimpleSearch_IDList\"]").clear()
+            
+    def search_many_products(self, products):
+        self.navProducts()
+        self.copy_product_status(products)
+    
+    
+    def navigate_pricebook(self, price_book):
+        pass
+    
+    def delete_price_wtih_wild_card(self, skuDict):
+        pass
+        
+    def delete_price_book(self, price_book):
+        skus = getSkus()
+        skuSorted = mergeSort(skus)
+        skuDict = wildCardDict(skuSorted)
+        self.navigate_pricebook(price_book)
+        self.delete_price_wtih_wild_card(skuDict)

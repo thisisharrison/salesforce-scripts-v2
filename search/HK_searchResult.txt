@@ -1,0 +1,130 @@
+style	name	status
+113050163	Energy Bra	OnlineIn-StockSearchableView
+127651117	Energy Bra	OnlineIn-StockSearchableView
+129125087	Free to Be Bra Long Line	In-StockSearchableView
+132153628	Like a Cloud Long-Line Bra B/C	In-StockSearchableView
+132153631	Like a Cloud Long-Line Bra B/C	In-StockSearchableView
+132153637	Like a Cloud Long-Line Bra B/C	In-StockSearchableView
+132153639	Like a Cloud Long-Line Bra B/C	In-StockSearchableView
+132153641	Like a Cloud Long-Line Bra B/C	In-StockSearchableView
+132153644	Like a Cloud Long-Line Bra B/C	In-StockSearchableView
+132157397	Nulux� UVP Run Jacket	In-StockSearchableView
+132157401	Nulux� UVP Run Jacket	In-StockSearchableView
+132157408	Nulux� UVP Run Jacket	In-StockSearchableView
+132157431	Nulux� UVP Run Jacket	In-StockSearchableView
+132157464	Nulux� UVP Run Jacket	In-StockSearchableView
+132157470	Nulux� UVP Run Jacket	In-StockSearchableView
+132157478	Nulux� UVP Run Jacket	In-StockSearchableView
+132350358	Align SHR Pant 28"	In-StockSearchableView
+132350360	Align SHR Pant 28"	In-StockSearchableView
+132925048	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925057	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925063	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925067	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925071	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925076	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925081	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925086	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925098	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925102	All Yours Tee *Cloud Wash	In-StockSearchableView
+132925106	All Yours Tee *Cloud Wash	In-StockSearchableView
+133100365	Commission Short Classic 9"	In-StockSearchableView
+133100377	Commission Short Classic 9"	In-StockSearchableView
+134225220	Speed Up MR Short 4" *Lined	In-StockSearchableView
+134225221	Speed Up MR Short 4" *Lined	In-StockSearchableView
+134225222	Speed Up MR Short 4" *Lined	In-StockSearchableView
+134225224	Speed Up MR Short 4" *Lined	In-StockSearchableView
+134225225	Speed Up MR Short 4" *Lined	In-StockSearchableView
+134225226	Speed Up MR Short 4" *Lined	In-StockSearchableView
+134325048	Wrap-Front Wide Leg HR Crop	OnlineIn-StockSearchableView
+134325059	Wrap-Front Wide Leg HR Crop	OnlineIn-StockSearchableView
+136025080	Back in Action Long Sleeve	In-StockSearchableView
+136025081	Back in Action Long Sleeve	In-StockSearchableView
+136025082	Back in Action Long Sleeve	In-StockSearchableView
+136025083	Back in Action Long Sleeve	In-StockSearchableView
+136025084	Back in Action Long Sleeve	In-StockSearchableView
+136025085	Back in Action Long Sleeve	In-StockSearchableView
+136025086	Back in Action Long Sleeve	In-StockSearchableView
+136025087	Back in Action Long Sleeve	In-StockSearchableView
+136025091	Back in Action Long Sleeve	In-StockSearchableView
+136025092	Back in Action Long Sleeve	In-StockSearchableView
+136025093	Back in Action Long Sleeve	In-StockSearchableView
+136304740	Align SHR Pant 28"	In-StockSearchableView
+136304761	Align SHR Pant 28"	In-StockSearchableView
+136304774	Align SHR Pant 28"	In-StockSearchableView
+136304791	Align SHR Pant 28"	In-StockSearchableView
+136304808	Align SHR Pant 28"	In-StockSearchableView
+136304823	Align SHR Pant 28"	In-StockSearchableView
+136304837	Align SHR Pant 28"	In-StockSearchableView
+136304854	Align SHR Pant 28"	In-StockSearchableView
+136304933	Align SHR Pant 28"	In-StockSearchableView
+136304955	Align SHR Pant 28"	In-StockSearchableView
+136304976	Align SHR Pant 28"	In-StockSearchableView
+136307964	Energy Bra	In-StockSearchableView
+136307972	Energy Bra	In-StockSearchableView
+136307980	Energy Bra	In-StockSearchableView
+136307986	Energy Bra	In-StockSearchableView
+136307992	Energy Bra	In-StockSearchableView
+136307997	Energy Bra	In-StockSearchableView
+136308003	Energy Bra	In-StockSearchableView
+136311194	Free to Be Bra Long Line	In-StockSearchableView
+136311224	Free to Be Bra Long Line	In-StockSearchableView
+136311238	Free to Be Bra Long Line	In-StockSearchableView
+136311253	Free to Be Bra Long Line	In-StockSearchableView
+136311268	Free to Be Bra Long Line	In-StockSearchableView
+136311285	Free to Be Bra Long Line	In-StockSearchableView
+136311300	Free to Be Bra Long Line	In-StockSearchableView
+136312154	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136312158	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136312161	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136312164	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136312171	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136312183	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136312186	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136312188	Speed Up MR Short 4" *Lined	In-StockSearchableView
+136475205	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475212	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475225	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475230	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475234	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475345	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475351	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475371	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475378	Ebb to Street RB Crop Tank	In-StockSearchableView
+136475385	Ebb to Street RB Crop Tank	In-StockSearchableView
+136476954	At Ease Hoodie	In-StockSearchableView
+136476969	At Ease Hoodie	In-StockSearchableView
+136476981	At Ease Hoodie	In-StockSearchableView
+136476995	At Ease Hoodie	In-StockSearchableView
+136477007	At Ease Hoodie	In-StockSearchableView
+136477017	At Ease Hoodie	In-StockSearchableView
+136501604	Back in Action Long Sleeve	In-StockSearchableView
+136501660	Swiftly Tech RB Tank 2.0 *Race	In-StockSearchableView
+136501670	Swiftly Tech RB Tank 2.0 *Race	In-StockSearchableView
+136501681	Swiftly Tech RB Tank 2.0 *Race	In-StockSearchableView
+136501853	Wunder Train HR Tight 25"	In-StockSearchableView
+136501856	Wunder Train HR Tight 25"	In-StockSearchableView
+136501858	Wunder Train HR Tight 25"	In-StockSearchableView
+136501859	Wunder Train HR Tight 25"	In-StockSearchableView
+136501860	Wunder Train HR Tight 25"	In-StockSearchableView
+136501861	Wunder Train HR Tight 25"	In-StockSearchableView
+136501862	Wunder Train HR Tight 25"	In-StockSearchableView
+136501863	Wunder Train HR Tight 25"	In-StockSearchableView
+136501867	Wunder Train HR Tight 25"	In-StockSearchableView
+136501868	Wunder Train HR Tight 25"	In-StockSearchableView
+136501869	Wunder Train HR Tight 25"	In-StockSearchableView
+136525544	Ribbed Turtleneck Sweater	In-StockSearchableView
+136525556	Ribbed Turtleneck Sweater	In-StockSearchableView
+136525561	Ribbed Turtleneck Sweater	In-StockSearchableView
+136554922	Energy Bra Long Line	In-StockSearchableView
+136554926	Energy Bra Long Line	In-StockSearchableView
+136554934	Energy Bra Long Line	In-StockSearchableView
+136554937	Energy Bra Long Line	In-StockSearchableView
+136554941	Energy Bra Long Line	In-StockSearchableView
+136554945	Energy Bra Long Line	In-StockSearchableView
+136600697	Energy Bra Long Line	In-StockSearchableView
+136600706	Energy Bra Long Line	In-StockSearchableView
+136600731	Energy Bra Long Line	In-StockSearchableView
+136600743	Energy Bra Long Line	In-StockSearchableView
+136600756	Energy Bra Long Line	In-StockSearchableView
+136600769	Energy Bra Long Line	In-StockSearchableView
