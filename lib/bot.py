@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 from pathlib import Path
+import datetime
 from lib.price_utils import getSkus, mergeSort, merge, wildCardDict
 import pdb
 
@@ -1032,9 +1033,200 @@ class SFBot:
         return variations
         
     def createVariants(self, variations):
-        pass
+        try:
+            while variations: 
+                pair = variations[0]
+                print(pair)
+                
+                product, styleNumber, colorID = pair
+                
+                self.searchProducts([product])
+                self.driver.find_element_by_link_text(product).click()
+                self.driver.find_element_by_link_text('Variations').click()
+                
+                try:
+                    self.driver.find_element_by_link_text('Lock').click()
+                    print("Unlocked")
+                except:
+                    pass
+                
+                form = self.driver.find_element_by_xpath('/html/body/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]')
+                
+                # check if we have more than 10 variations
+                try:
+                    button = form.find_element_by_xpath('//button[@name="PageSize"]')
+                    button.click()
+                    print("Opened all variation groups")
+                except:
+                    print("Variation groups less than equal 10")
+                    pass
+                
+                try: 
+                    exist = self.driver.find_element_by_link_text(styleNumber)
+                    if exist:
+                        print(f"Variation {styleNumber} was created before")
+                        done = variations.pop(0)
+                        self.driver.send_keys(Keys.HOME)
+                        self.driver.find_element_by_xpath('//*[@id="bm-breadcrumb"]/a[3]').click()
+                        continue
+                except:
+                    print(f"Creating new variation {styleNumber}")
+                    pass
+                
+                try:
+                    button = self.driver.find_element_by_xpath('//button[@name="createVariationGroup"]')
+                    button.click()
+                    print(f"Add {styleNumber}")
+                except:
+                    self.driver.find_element_by_xpath('//button[@name="confirmDisableSlicing"]').click()
+                    button = self.driver.find_element_by_xpath('//button[@name="createVariationGroup"]')
+                    button.click()
+                    print(f"Add {styleNumber}")
+                    pass
+                
+                # Expand all 
+                try:
+                    form = self.driver.find_element_by_xpath('/html/body/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]')
+                    button = form.find_element_by_xpath('//button[@name="PageSize"]')               
+                    button.click()
+                    print("Expanded all")
+                except:
+                    print("Do not need to expand all")
+                    pass
+                                
+                script = """table = document._getElementsByXPath('//*[@id="bm_content_column"]/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]/table[2]');
+                let rows = table[0].rows
+                let length = rows.length
+                Array.from(rows).forEach(row => {{
+                    if(row.innerText.include("{}")) {{
+                        let options = row.getElementsByTagName('option');
+                        let select = row.querySelector('select')
+                        Array.from(options).forEach((option, i) => {{
+                            if (option.value === "{}".toString()) {{
+                                select.selectedIndex = i
+                            }}
+                        }})
+                    }}
+                }})
+                """.format(styleNumber, colorID)
+                                
+                self.driver.execute_script(script)
+                
+                try:
+                    self.driver.find_element_by_xpath('//button[@name="applyVariationGroup"]')\
+                        .click()
+                except:
+                    try:
+                        apply = """button = document._getElementsByXPath('//button[@name="applyVariationGroup"]');
+                        button[0].click();
+                        """                
+                        self.driver.execute_script(apply)
+                    except:
+                        raise
+                                
+                self.driver.find_element_by_link_text('Unlock').click()
+                        
+                print("Applied")
+                
+                self.driver.send_keys(Keys.HOME)                
+                self.driver.find_element_by_xpath('//*[@id="bm-breadcrumb"]/a[3]').click()
+                
+                done = variations.pop(0)
+                
+        except Exception as error:
+            print(f"Oops... something went wrong > {error}")
+            print("Variations that are not created will be saved in incomplete_variation.txt in csv folder")            
+            
+            with open('./variations/variation_errors.txt', "a", encoding='utf-8') as file:
+                content = product + '\t' + styleNumber + '\t' + colorID + '\t' + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + '\n'
+                file.write(content)
+                print('Error > ', content)            
+            
+            done = variations.pop(0)            
+
+            self.navProducts()
+            self.createVariants(variations)
     
     def create_variations(self):
         variations = self.getVariations('./csv/variations.csv')
         self.navProducts()
         self.createVariants(variations)
+        
+    """ Update Refinement Buckets """
+    def getBuckets(self):
+        filename = './csv/buckets_' + self.site + '.csv'
+        with open(filename, newline='', encoding='utf-8-sig') as csvfile:
+            reader = csv.DictReader(csvfile)
+            
+            mapping = {}
+            
+            for row in reader:
+                k = row['bucket']
+                v = row['style']
+                
+                if not k:
+                    continue 
+                
+                if k in mapping.keys():  
+                    mapping[k].append(v)
+                else:
+                    if "," in k:
+                        for j in list(map(lambda x: x.strip(), k.split(","))):
+                            if j in mapping.keys():    
+                                mapping[j].append(v)
+                            else:
+                                mapping[j] = [v]
+                    else:
+                        mapping[k] = [v]
+        return mapping
+    
+    """ Rewrite all buckets """
+    def bucketRefinementUpdate(self, urls, index):
+        mapping = self.getBuckets()
+        attr_types = {
+            1: 'By Attribute (Style Number)',
+            2: 'By Attribute (ID)',
+            3: 'By Attribute (Type)',
+            4: 'By Attribute (Size)'
+            }
+        
+        for url in urls:
+            buckets = list(mapping.keys())             
+            self.driver.get(url)
+            self.driver.find_element_by_link_text('Search Refinement Definitions').click()            
+            attribute = self.driver.find_elements_by_link_text(attr_types[index])[-1]            
+            self.driver.execute_script("arguments[0].scrollIntoView()", attribute)            
+            attribute.click()            
+            self.selectLanguage()            
+            self.driver.find_element_by_xpath("//body").send_keys(Keys.END)            
+            rows = self.driver.find_elements_by_xpath('//td[@class="table_detail s"]')            
+            
+            while len(rows) > 1:
+                selectAll = self.driver.find_element_by_link_text('Select All')
+                self.driver.execute_script("arguments[0].click();",selectAll)
+                try:
+                    confirmDelete = self.driver.find_element_by_xpath('//button[@name="confirmDelete"]')
+                    self.driver.execute_script("arguments[0].click();",confirmDelete)
+                except:
+                    script = """document._getElementsByXPath('//button[@name="confirmDelete"]')[0].click()"""
+                    self.driver.execute_script(script)
+                delete = self.driver.find_element_by_xpath('//button[@name="delete"]')
+                self.driver.execute_script("arguments[0].click();",delete)                
+                rows = self.driver.find_elements_by_xpath('//td[@class="table_detail s"]')
+                        
+            while buckets:
+                bucket_display = buckets[0]                
+                bucket_values = mapping[bucket_display]
+                bucketInput = self.driver.find_element_by_xpath('//input[@name="NewBucketValues"]')
+                self.driver.execute_script("arguments[0].value = {}.toString()".format(bucket_values), bucketInput)
+                self.driver.find_element_by_xpath('//input[@name="NewBucketDisplay"]').send_keys(bucket_display)
+                
+                try:
+                    self.driver.find_element_by_xpath('//button[@name="add"]').click()
+                except:
+                    script = """document._getElementsByXPath('//button[@name="add"]')[0].click()"""
+                    self.driver.execute_script(script)
+                
+                print("Done > {}".format(bucket_display))
+                
+                done = buckets.pop(0)

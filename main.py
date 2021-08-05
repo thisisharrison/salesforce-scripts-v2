@@ -32,6 +32,21 @@ def display_pricebooks():
     choice = input("Enter PriceBook > ").strip()
     return pricebooks[choice]
 
+def display_refinements():
+    urls = input("Enter Category URL(s) > ").splitlines()
+    
+    # Select last refinement using the attribute type
+    attr_types = {
+        1: 'By Attribute (Style Number)',
+        2: 'By Attribute (ID)',
+        3: 'By Attribute (Type)',
+        4: 'By Attribute (Size)'
+        }
+    display_optiosn(attr_types)
+    index = int(input("Enter Attribute Type > "))
+    
+    return [urls, index]
+
 def display_actions():
     actions = {
         "A": ["Primary and/or Secondary Categorize", "my_bot.assign_primary_secondary_categories()"], 
@@ -39,9 +54,10 @@ def display_actions():
         "C": ["Fill Missing Image", "my_bot.fill_missing_image()"], 
         "D": ["Change Front Facing Color", "my_bot.update_front_color()"], 
         "E": ["Update Category Position", "my_bot.update_category_position(url)"], 
-        "F": ["Search Many Products", "my_bot.search_many_products(products)"], # NEW FEATURE!!!
-        "G": ["Delete Sale Price Book", "my_bot.delete_price_book(price_book)"] # NEW FEATURE!!!
-        "H": ["Create Variation PID", "my_bot.create_variations()"] # NEW FEATURE!!!
+        "F": ["Search Many Products", "my_bot.search_many_products(products)"],
+        "G": ["Delete Sale Price Book", "my_bot.delete_price_book(price_book)"], # NEW FEATURE!!!
+        "H": ["Create Variation PID", "my_bot.create_variations()"], # NEW FEATURE!!!
+        "I": ["Rewrite Search Refinement", "my_bot.bucketRefinementUpdate(urls, index)"] # NEW FEATURE!!!
         
         # TODO
         # "G": "Update Product Attributes",
@@ -61,17 +77,19 @@ def run():
     # ask user to choose action
     actions, option = display_actions()
     
-    url = None
-    products = None
-    price_book = None
-    
     if option == "E":
+        # Update Category Positions
         url = input("Enter category url > ")
     elif option == "F":
+        # Search Many Products
         products = [x.strip() for x in input("Enter Products > ").splitlines()]
         products = list(dict.fromkeys(products))
-    elif option == "I":
+    elif option == "G":
+        # Remove Sale Price
         price_book = display_pricebooks()
+    elif option == "I":
+        # Search Refinements
+        urls, index = display_refinements()
         
     # create Bot
     my_bot = SFBot(email, password, twoAuth, site)
@@ -82,6 +100,8 @@ def run():
         eval(actions[option][1], {"my_bot": my_bot}, {"products": products})
     elif option == "G":
         eval(actions[option][1], {"my_bot": my_bot}, {"price_book": price_book})
+    elif option == "I":
+        eval(actions[option][1], {"my_bot": my_bot}, {"urls": urls, "index": index})
     else:
         eval(actions[option][1])
     
