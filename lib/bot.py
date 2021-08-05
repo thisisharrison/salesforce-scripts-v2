@@ -1148,7 +1148,7 @@ class SFBot:
             self.createVariants(variations)
     
     def create_variations(self):
-        variations = self.getVariations('./csv/variations.csv')
+        variations = self.getVariations()
         self.navProducts()
         self.createVariants(variations)
         

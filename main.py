@@ -42,7 +42,8 @@ def display_refinements():
         3: 'By Attribute (Type)',
         4: 'By Attribute (Size)'
         }
-    display_options(attr_types)
+    for k, v in attr_types.items():
+        print(f"{k}) {v}")
     index = int(input("Enter Attribute Type > "))
     
     return [urls, index]
@@ -55,9 +56,9 @@ def display_actions():
         "D": ["Change Front Facing Color", "my_bot.update_front_color()"], 
         "E": ["Update Category Position", "my_bot.update_category_position(url)"], 
         "F": ["Search Many Products", "my_bot.search_many_products(products)"],
-        "G": ["Delete Sale Price Book", "my_bot.delete_price_book(price_book)"], # NEW FEATURE!!!
-        "H": ["Create Variation PID", "my_bot.create_variations()"], # NEW FEATURE!!!
-        "I": ["Rewrite Search Refinement", "my_bot.bucketRefinementUpdate(urls, index)"] # NEW FEATURE!!!
+        "G": ["Delete Sale Price Book", "my_bot.delete_price_book(price_book)"], 
+        "H": ["Create Variation PID", "my_bot.create_variations()"], # NOT WORKING FOR CACAO!!!
+        "I": ["Rewrite Search Refinement", "my_bot.bucketRefinementUpdate(urls, index)"] 
         
         # TODO
         # "G": "Update Product Attributes",
