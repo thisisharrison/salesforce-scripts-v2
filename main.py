@@ -42,7 +42,7 @@ def display_refinements():
         3: 'By Attribute (Type)',
         4: 'By Attribute (Size)'
         }
-    display_optiosn(attr_types)
+    display_options(attr_types)
     index = int(input("Enter Attribute Type > "))
     
     return [urls, index]
