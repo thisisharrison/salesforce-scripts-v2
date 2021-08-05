@@ -12,13 +12,14 @@ def getSkus():
 
     skus = []
 
-    with open ('./csv/skus.csv', newline = '', encoding='utf-8-sig') as csvfile:
+    with open ('./csv/delete_sale_skus.csv', newline = '', encoding='utf-8-sig') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader: 
             sku = int(row['skus'].strip())
             skus.append(sku)
 
     return skus
+
     
 def mergeSort(arr):
     if len(arr) < 2:
@@ -58,3 +59,4 @@ def wildCardDict(arr):
         else:
             mapping[k] = [sku]
     return mapping
+ 

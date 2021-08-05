@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 from pathlib import Path
-from price_utils import getSkus, mergeSort, merge, wildCardDict
+from lib.price_utils import getSkus, mergeSort, merge, wildCardDict
 import pdb
 
 
@@ -919,7 +919,7 @@ class SFBot:
                         counter += 1
                         continue                
                     style = tds[0].text.strip()
-                    name = tds[1].text.strip()
+                    name = tds[1].text.strip().replace('\t', ' ')
                     
                     imgs = tr.find_all('img')
                     stat = ''
@@ -943,10 +943,66 @@ class SFBot:
     
     
     def navigate_pricebook(self, price_book):
-        pass
+        url = 'https://staging-eu01-lululemon.demandware.net/on/demandware.store/Sites-Site/default/ViewPriceBook_52-Edit?PriceBookID='
+        url = url + price_book
+        self.driver.get(url)
+        self.driver.find_element(By.LINK_TEXT, "Price Definitions").click() 
+        self.driver.find_element(By.CSS_SELECTOR, "td:nth-child(3) > .perm_not_disabled").click()
+        print(f"Entered {price_book} Price Book Page")
     
     def delete_price_wtih_wild_card(self, skuDict):
-        pass
+        search = self.driver.find_element_by_xpath("//input[@name=\"SearchTerm\"]")
+        search.clear()
+        keys = [*skuDict]
+        total = len(keys)
+        count = 0
+        
+        while keys: 
+            key = keys[0]
+            skus = skuDict[key]            
+            search = self.driver.find_element_by_xpath("//input[@name=\"SearchTerm\"]")
+            search.clear()            
+            searchTerm = str(key) + '*'
+            search.send_keys(searchTerm)
+            self.driver.find_element_by_xpath('//button[@name=\"simpleSearch\"]').click()
+            
+            script = """
+                let a = {};
+                const i = document._getElementsByXPath('//input[@name="sku"]')
+                let found = true;
+                let clicked = 0
+                
+                if (i.length === 0) {{ 
+                        found = false;
+                }} else {{
+                    const ar = Array.from(i);
+            
+                    ar.forEach((el)=> {{
+                        if (a.include(el.defaultValue)) {{
+                                el.click();
+                                clicked += 1;
+                        }}
+                    }})
+                    
+                    if (clicked === 0) {{ found = false; }}
+                }}
+                return found;
+            """.format(skus)
+            
+            event = self.driver.execute_script(script)
+            
+            if (event):
+                deleteButton = self.driver.find_element_by_xpath('//*[@id="deleteButton"]')
+                self.driver.execute_script("arguments[0].click();", deleteButton)
+                confirmDelete = self.driver.find_element_by_xpath('//button[@name=\"deletePrices\"]')   
+                self.driver.execute_script("arguments[0].click();", confirmDelete)
+                print("Deleted: ", skus)
+            else: 
+                print("Sku not found", skus)
+            done = keys.pop(0)
+            count += 1
+            
+            print("{} / {}".format(count, total))
         
     def delete_price_book(self, price_book):
         skus = getSkus()
@@ -954,3 +1010,31 @@ class SFBot:
         skuDict = wildCardDict(skuSorted)
         self.navigate_pricebook(price_book)
         self.delete_price_wtih_wild_card(skuDict)
+        
+    """ Get Variation Mapping for Product Variation Groups """
+    def getVariations(self):
+        variations = []
+        filename = './csv/variations.csv'
+        with open (filename, newline = '', encoding='UTF-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader: 
+                try:
+                    """ PERSONAL MAC """
+                    master = row['master']
+                except:
+                    """ OFFICE COMPUTER """
+                    master = row['\ufeffmaster']                
+                styleNumber = row['styleNumber'].strip()                
+                colorID = row['colorID'].strip()                
+                pair = [master, styleNumber, colorID]                
+                variations.append(pair)                
+        print("Variations: ",variations)
+        return variations
+        
+    def createVariants(self, variations):
+        pass
+    
+    def create_variations(self):
+        variations = self.getVariations('./csv/variations.csv')
+        self.navProducts()
+        self.createVariants(variations)
