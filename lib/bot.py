@@ -1052,65 +1052,51 @@ class SFBot:
                 
                 form = self.driver.find_element_by_xpath('/html/body/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]')
                 
-                # check if we have more than 10 variations
-                try:
-                    button = form.find_element_by_xpath('//button[@name="PageSize"]')
-                    button.click()
-                    print("Opened all variation groups")
-                except:
-                    print("Variation groups less than equal 10")
-                    pass
+                self.expand_variations()
                 
                 try: 
                     exist = self.driver.find_element_by_link_text(styleNumber)
                     if exist:
                         print(f"Variation {styleNumber} was created before")
+                        self.apply_color_to_variation(styleNumber, colorID)
                         done = variations.pop(0)
-                        self.driver.send_keys(Keys.HOME)
+                        self.driver.find_element_by_xpath("//body").send_keys(Keys.HOME)
                         self.driver.find_element_by_xpath('//*[@id="bm-breadcrumb"]/a[3]').click()
                         continue
                 except:
                     print(f"Creating new variation {styleNumber}")
                     pass
                 
-                try:
-                    button = self.driver.find_element_by_xpath('//button[@name="createVariationGroup"]')
-                    button.click()
-                    print(f"Add {styleNumber}")
-                except:
-                    self.driver.find_element_by_xpath('//button[@name="confirmDisableSlicing"]').click()
-                    button = self.driver.find_element_by_xpath('//button[@name="createVariationGroup"]')
-                    button.click()
-                    print(f"Add {styleNumber}")
-                    pass
+                self.driver.find_element_by_xpath('//input[@id="VariationGroupProductSKU"]').send_keys(styleNumber)
                 
-                # Expand all 
-                try:
-                    form = self.driver.find_element_by_xpath('/html/body/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]')
-                    button = form.find_element_by_xpath('//button[@name="PageSize"]')               
-                    button.click()
-                    print("Expanded all")
-                except:
-                    print("Do not need to expand all")
-                    pass
-                                
-                script = """table = document._getElementsByXPath('//*[@id="bm_content_column"]/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]/table[2]');
-                let rows = table[0].rows
-                let length = rows.length
-                Array.from(rows).forEach(row => {{
-                    if(row.innerText.include("{}")) {{
-                        let options = row.getElementsByTagName('option');
-                        let select = row.querySelector('select')
-                        Array.from(options).forEach((option, i) => {{
-                            if (option.value === "{}".toString()) {{
-                                select.selectedIndex = i
-                            }}
-                        }})
-                    }}
-                }})
-                """.format(styleNumber, colorID)
-                                
-                self.driver.execute_script(script)
+                try: 
+                    # is this the first variation ever? 
+                    self.driver.find_element_by_xpath('//button[@name="confirmDisableSlicing"]').click()
+                    print("First ever variation!")
+                    try:
+                        button = self.driver.find_element_by_xpath('//button[@name="createVariationGroup"]')
+                        button.click()
+                    except:
+                        self.driver.execute_script(
+                        """
+                        document._getElementsByXPath('//button[@name="createVariationGroup"]')[0].click()
+                        """
+                        )
+                except: 
+                    try:
+                        button = self.driver.find_element_by_xpath('//button[@name="createVariationGroup"]')
+                        button.click()
+                    except:
+                        self.driver.execute_script(
+                        """
+                        document._getElementsByXPath('//button[@name="createVariationGroup"]')[0].click()
+                        """
+                        )
+                print(f"Add {styleNumber}")
+                
+                self.expand_variations()
+                
+                self.apply_color_to_variation(styleNumber, colorID) 
                 
                 try:
                     self.driver.find_element_by_xpath('//button[@name="applyVariationGroup"]')\
@@ -1128,7 +1114,7 @@ class SFBot:
                         
                 print("Applied")
                 
-                self.driver.send_keys(Keys.HOME)                
+                self.driver.find_element_by_xpath("//body").send_keys(Keys.HOME)           
                 self.driver.find_element_by_xpath('//*[@id="bm-breadcrumb"]/a[3]').click()
                 
                 done = variations.pop(0)
@@ -1146,6 +1132,35 @@ class SFBot:
 
             self.navProducts()
             self.createVariants(variations)
+            
+    def apply_color_to_variation(self, styleNumber, colorID):
+        script = """table = document._getElementsByXPath('//*[@id="bm_content_column"]/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]/table[2]');
+        let rows = table[0].rows
+        let length = rows.length
+        Array.from(rows).forEach(row => {{
+            if(row.innerText.include("{}")) {{
+                let options = row.getElementsByTagName('option');
+                let select = row.querySelector('select')
+                Array.from(options).forEach((option, i) => {{
+                    if (option.value === "{}".toString()) {{
+                        select.selectedIndex = i
+                    }}
+                }})
+            }}
+        }})
+        """.format(styleNumber, colorID)
+        self.driver.execute_script(script) 
+        
+    def expand_variations(self):
+        # Expand all 
+        try:
+            form = self.driver.find_element_by_xpath('/html/body/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]')
+            button = form.find_element_by_xpath('//button[@name="PageSize"]')               
+            button.click()
+            print("Expanded all")
+        except:
+            print("Do not need to expand all")
+            pass
     
     def create_variations(self):
         variations = self.getVariations()

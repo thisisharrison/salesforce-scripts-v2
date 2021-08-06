@@ -57,7 +57,7 @@ def display_actions():
         "E": ["Update Category Position", "my_bot.update_category_position(url)"], 
         "F": ["Search Many Products", "my_bot.search_many_products(products)"],
         "G": ["Delete Sale Price Book", "my_bot.delete_price_book(price_book)"], 
-        "H": ["Create Variation PID", "my_bot.create_variations()"], # NOT WORKING FOR CACAO!!!
+        "H": ["Create Variation PID", "my_bot.create_variations()"], # NEW FEATURE!!!
         "I": ["Rewrite Search Refinement", "my_bot.bucketRefinementUpdate(urls, index)"] 
         
         # TODO
