@@ -112,7 +112,10 @@ class SFBot:
         
         self.driver.get("https://staging-eu01-lululemon.demandware.net/on/demandware.store/Sites-Site/default/ViewProductList_52-List?SelectedMenuItem=prod-cat&CurrentMenuItemId=prod-cat&CatalogItemType=Product")
         
-        self.driver.find_element_by_link_text('By ID').click()
+        try:
+            self.driver.find_element_by_link_text('By ID').click()
+        except:
+            pass
         
         print("==========================")
         print("Product Page")
@@ -1128,8 +1131,11 @@ class SFBot:
                 file.write(content)
                 print('Error > ', content)            
             
-            self.driver.find_element_by_xpath("//body").send_keys(Keys.HOME)           
-            self.driver.find_element_by_xpath('//*[@id="bm-breadcrumb"]/a[3]').click()
+            try:
+                self.driver.find_element_by_xpath("//body").send_keys(Keys.HOME)           
+                self.driver.find_element_by_xpath('//*[@id="bm-breadcrumb"]/a[3]').click()
+            except:
+                self.navProducts()
             done = variations.pop(0)
             self.createVariants(variations)
             
