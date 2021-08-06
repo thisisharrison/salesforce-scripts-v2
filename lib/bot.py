@@ -1128,9 +1128,9 @@ class SFBot:
                 file.write(content)
                 print('Error > ', content)            
             
-            done = variations.pop(0)            
-
-            self.navProducts()
+            self.driver.find_element_by_xpath("//body").send_keys(Keys.HOME)           
+            self.driver.find_element_by_xpath('//*[@id="bm-breadcrumb"]/a[3]').click()
+            done = variations.pop(0)
             self.createVariants(variations)
             
     def apply_color_to_variation(self, styleNumber, colorID):
