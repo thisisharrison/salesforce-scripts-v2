@@ -257,11 +257,16 @@ class SFBot:
                 for (let nav of navs) {{
                         if (nav.textContent.toLowerCase().includes('{}'.toLowerCase())) {{
                                 nav.click();
+                                return true;
                         }}
                 }}
+                return false;
                 """.format(nav)
                 
-                self.driver.execute_script(select_nav)
+                nav_result = self.driver.execute_script(select_nav)
+                if not nav_result:
+                    message = "Navigation ID not found. Search ID and select the checkbox then enter 'y'."
+                    self.helpMeHuman(message)
                 
                 print("==========================")
                 print("Select Nav: ", nav)
