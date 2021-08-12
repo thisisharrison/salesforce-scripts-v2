@@ -1,5 +1,7 @@
 from lib.bot import SFBot
 import distutils.core
+# rmeove
+import csv
 
 
 def openSecrets():
@@ -18,13 +20,14 @@ def display_pricebooks():
         '2': 'EMP-HKD-PROMO',
         '3': '49188-JPY-SALE',
         '4': 'EMP-JPY-PROMO',
-        '5': '59188-AUD-SALE',
-        '6': '55188-NZD-SALE',
-        '7': '60188-GBP-SALE',
-        '8': '64188-EUR-SALE',
-        '9': '65188-EUR-SALE',
-        '10': '66188-EUR-SALE',
-        '11': '66198-CHF-SALE'
+        '5': '44188-KRW-SALE',
+        '6': '59188-AUD-SALE',
+        '7': '55188-NZD-SALE',
+        '8': '60188-GBP-SALE',
+        '9': '64188-EUR-SALE',
+        '10': '65188-EUR-SALE',
+        '11': '66188-EUR-SALE',
+        '12': '66198-CHF-SALE'
     }
     print("Pricebooks: ")
     for k, v in pricebooks.items():
@@ -57,7 +60,7 @@ def display_actions():
         "E": ["Update Category Position", "my_bot.update_category_position(url)"], 
         "F": ["Search Many Products", "my_bot.search_many_products(products)"],
         "G": ["Delete Sale Price Book", "my_bot.delete_price_book(price_book)"], 
-        "H": ["Create Variation PID", "my_bot.create_variations()"], # NEW FEATURE!!!
+        "H": ["Create Variation PID", "my_bot.create_variations()"],
         "I": ["Rewrite Search Refinement", "my_bot.bucketRefinementUpdate(urls, index)"] 
         
         # TODO
@@ -111,3 +114,7 @@ def run():
     
 if __name__ == "__main__":
     run()
+    
+    
+    
+    
