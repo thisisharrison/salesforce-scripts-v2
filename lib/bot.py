@@ -10,21 +10,14 @@ import os
 from pathlib import Path
 import datetime
 from lib.price_utils import getSkus, mergeSort, merge, wildCardDict
+from webdriver_manager.chrome import ChromeDriverManager
 import pdb
 
 
 class SFBot:
     def __init__(self, username, password, twoAuth, site):
-        # Locate Chrome Driver
-        home = str(Path.home())
-        try:
-            # Windows
-            driver_loc = home + '\chromedriver'
-            self.driver = webdriver.Chrome(driver_loc)
-        except: 
-            # Mac
-            driver_loc = home + '/chromedriver'
-            self.driver = webdriver.Chrome(driver_loc)
+        # Install and use latest ChromeDriver
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
             
         # Set implicit wait time
         self.driver.implicitly_wait(5)
@@ -1094,14 +1087,12 @@ class SFBot:
                 self.searchProducts([product])
                 self.driver.find_element_by_link_text(product).click()
                 self.driver.find_element_by_link_text('Variations').click()
-                
+
                 try:
                     self.driver.find_element_by_link_text('Lock').click()
                     print("Unlocked")
                 except:
                     pass
-                
-                form = self.driver.find_element_by_xpath('/html/body/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td[2]/form[1]')
                 
                 self.expand_variations()
                 
